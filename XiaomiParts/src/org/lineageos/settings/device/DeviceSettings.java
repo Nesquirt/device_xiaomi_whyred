@@ -58,6 +58,9 @@ public class DeviceSettings extends PreferenceFragment implements
     private SecureSettingListPreference mSPECTRUM;
 
     @Override
+
+   @Override
+
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences_xiaomi_parts, rootKey);
 
@@ -129,6 +132,13 @@ public class DeviceSettings extends PreferenceFragment implements
                 mSPECTRUM.setValue((String) value);
                 mSPECTRUM.setSummary(mSPECTRUM.getEntry());
                 FileUtils.setValue(SPECTRUM_PATH, (String) value);
+            
+            case PREF_HEADPHONE_GAIN:
+                FileUtils.setValue(HEADPHONE_GAIN_PATH, value + " " + value);
+                break;
+
+            case PREF_MICROPHONE_GAIN:
+                FileUtils.setValue(MICROPHONE_GAIN_PATH, (int) value);
                 break;
 
             case PREF_ENABLE_DIRAC:

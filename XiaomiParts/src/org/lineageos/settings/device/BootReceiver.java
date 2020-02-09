@@ -25,6 +25,9 @@ import org.lineageos.settings.device.kcal.Utils;
 
 public class BootReceiver extends BroadcastReceiver implements Utils {
 
+    public static final  String HEADPHONE_GAIN_PATH = "/sys/kernel/sound_control/headphone_gain";
+    public static final  String MICROPHONE_GAIN_PATH = "/sys/kernel/sound_control/mic_gain";
+
     public void onReceive(Context context, Intent intent) {
 
         if (Settings.Secure.getInt(context.getContentResolver(), PREF_ENABLED, 0) == 1) {
@@ -52,6 +55,12 @@ public class BootReceiver extends BroadcastReceiver implements Utils {
             FileUtils.setValue(KCAL_HUE, Settings.Secure.getInt(context.getContentResolver(),
                     PREF_HUE, HUE_DEFAULT));
         }
+
+        int gain = Settings.Secure.getInt(context.getContentResolver(),
+                DeviceSettings.PREF_HEADPHONE_GAIN, 5);
+        FileUtils.setValue(HEADPHONE_GAIN_PATH, gain + " " + gain);
+        FileUtils.setValue(MICROPHONE_GAIN_PATH, Settings.Secure.getInt(context.getContentResolver(),
+                DeviceSettings.PREF_MICROPHONE_GAIN, 0));
 
         FileUtils.setValue(DeviceSettings.VIBRATION_STRENGTH_PATH, Settings.Secure.getInt(
                 context.getContentResolver(), DeviceSettings.PREF_VIBRATION_STRENGTH, 80) / 100.0 * (DeviceSettings.MAX_VIBRATION - DeviceSettings.MIN_VIBRATION) + DeviceSettings.MIN_VIBRATION);
